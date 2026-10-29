@@ -122,7 +122,6 @@
     animation: fadeUp .9s .1s ease both;
   }
 
-  /* درخشش کریستالی روی شیشه */
   .glass::after{
     content: "";
     position: absolute;
@@ -166,7 +165,7 @@
     border-collapse: separate;
     border-spacing: 7px;
     width: 100%;
-    min-width: 720px;
+    min-width: 760px;
   }
 
   th, td{
@@ -193,12 +192,17 @@
     text-shadow: 0 0 14px var(--c, rgba(219,234,254,.6));
   }
 
-  /* ستون‌های زاویه */
   thead th.angle-h{
     color: #e6f6ff;
     background: linear-gradient(158deg, rgba(125,211,252,.30), rgba(167,139,250,.14));
     border-color: rgba(125,211,252,.46);
     text-shadow: 0 0 16px rgba(125,211,252,.85);
+  }
+
+  /* ======= همه‌ی سلول‌های عددی از چپ به راست ======= */
+  td[dir="ltr"]{
+    direction: ltr;
+    unicode-bidi: isolate;
   }
 
   td.angle{
@@ -220,7 +224,7 @@
 
   tbody td[class*="f-"]{
     color: var(--c);
-    font-size: clamp(.82rem, 1.7vw, 1.02rem);
+    font-size: clamp(.85rem, 1.8vw, 1.05rem);
     text-shadow: 0 0 13px var(--c);
     border-color: color-mix(in srgb, var(--c) 32%, rgba(255,255,255,.08));
   }
@@ -238,7 +242,46 @@
                 0 1px 0 rgba(255,255,255,.5) inset;
   }
 
-  /* بینهایت */
+  /* ============ کسر ============ */
+  .fr{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1.05;
+    font-size: .95em;
+  }
+
+  .fr > .num{
+    padding: 0 .34em .07em;
+    border-bottom: 1.6px solid currentColor;
+  }
+
+  .fr > .den{
+    padding: .07em .34em 0;
+  }
+
+  /* ============ رادیکال دقیقاً روی عدد ============ */
+  .rad{
+    display: inline-flex;
+    align-items: flex-start;
+    line-height: 1.05;
+    vertical-align: baseline;
+  }
+
+  .rad > .rs{           /* علامت رادیکال */
+    line-height: 1.05;
+    margin-right: -.02em;
+  }
+
+  .rad > .rb{           /* عدد زیر خط رادیکال */
+    border-top: 1.6px solid currentColor;
+    padding: .05em .2em 0 .06em;
+    margin-top: .1em;
+  }
+
+  /* ============ بینهایت ============ */
   .inf{
     font-size: 1.22em;
     line-height: 1;
@@ -249,26 +292,6 @@
   @keyframes pulse{
     0%, 100%{ opacity: .62; transform: scale(1); }
     50%     { opacity: 1;    transform: scale(1.14); }
-  }
-
-  /* کسرها */
-  .fr{
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    line-height: 1.02;
-    font-size: .92em;
-  }
-  .fr > i{
-    font-style: normal;
-    border-bottom: 1.6px solid currentColor;
-    padding: 0 .32em .07em;
-  }
-  .fr > b{
-    font-weight: inherit;
-    padding: .07em .32em 0;
   }
 
   /* انیمیشن ورود سطرها */
@@ -353,112 +376,112 @@
       </thead>
 
       <tbody>
-        <!-- 0° -->
+        <!-- ================= 0° ================= -->
         <tr>
-          <td class="angle">0°</td>
-          <td class="angle">0</td>
-          <td class="f-sin">0</td>
-          <td class="f-cos">1</td>
-          <td class="f-tan">0</td>
-          <td class="f-cot"><span class="inf">∞</span></td>
-          <td class="f-sec">1</td>
-          <td class="f-csc"><span class="inf">∞</span></td>
+          <td class="angle" dir="ltr">0°</td>
+          <td class="angle" dir="ltr">0</td>
+          <td class="f-sin" dir="ltr">0</td>
+          <td class="f-cos" dir="ltr">1</td>
+          <td class="f-tan" dir="ltr">0</td>
+          <td class="f-cot" dir="ltr"><span class="inf">∞</span></td>
+          <td class="f-sec" dir="ltr">1</td>
+          <td class="f-csc" dir="ltr"><span class="inf">∞</span></td>
         </tr>
 
-        <!-- 30° -->
+        <!-- ================= 30° ================= -->
         <tr>
-          <td class="angle">30°</td>
-          <td class="angle"><span class="fr"><i>π</i><b>6</b></span></td>
-          <td class="f-sin"><span class="fr"><i>1</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>√3</i><b>2</b></span></td>
-          <td class="f-tan"><span class="fr"><i>√3</i><b>3</b></span></td>
-          <td class="f-cot">√3</td>
-          <td class="f-sec"><span class="fr"><i>2√3</i><b>3</b></span></td>
-          <td class="f-csc">2</td>
+          <td class="angle" dir="ltr">30°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">π</span><span class="den">6</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num">1</span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-cot" dir="ltr"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></td>
+          <td class="f-sec" dir="ltr"><span class="fr"><span class="num">2<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-csc" dir="ltr">2</td>
         </tr>
 
-        <!-- 45° -->
+        <!-- ================= 45° ================= -->
         <tr>
-          <td class="angle">45°</td>
-          <td class="angle"><span class="fr"><i>π</i><b>4</b></span></td>
-          <td class="f-sin"><span class="fr"><i>√2</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>√2</i><b>2</b></span></td>
-          <td class="f-tan">1</td>
-          <td class="f-cot">1</td>
-          <td class="f-sec">√2</td>
-          <td class="f-csc">√2</td>
+          <td class="angle" dir="ltr">45°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">π</span><span class="den">4</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr">1</td>
+          <td class="f-cot" dir="ltr">1</td>
+          <td class="f-sec" dir="ltr"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></td>
+          <td class="f-csc" dir="ltr"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></td>
         </tr>
 
-        <!-- 60° -->
+        <!-- ================= 60° ================= -->
         <tr>
-          <td class="angle">60°</td>
-          <td class="angle"><span class="fr"><i>π</i><b>3</b></span></td>
-          <td class="f-sin"><span class="fr"><i>√3</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>1</i><b>2</b></span></td>
-          <td class="f-tan">√3</td>
-          <td class="f-cot"><span class="fr"><i>√3</i><b>3</b></span></td>
-          <td class="f-sec">2</td>
-          <td class="f-csc"><span class="fr"><i>2√3</i><b>3</b></span></td>
+          <td class="angle" dir="ltr">60°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">π</span><span class="den">3</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr"><span class="fr"><span class="num">1</span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></td>
+          <td class="f-cot" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-sec" dir="ltr">2</td>
+          <td class="f-csc" dir="ltr"><span class="fr"><span class="num">2<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
         </tr>
 
-        <!-- 90° -->
+        <!-- ================= 90° ================= -->
         <tr>
-          <td class="angle">90°</td>
-          <td class="angle"><span class="fr"><i>π</i><b>2</b></span></td>
-          <td class="f-sin">1</td>
-          <td class="f-cos">0</td>
-          <td class="f-tan"><span class="inf">∞</span></td>
-          <td class="f-cot">0</td>
-          <td class="f-sec"><span class="inf">∞</span></td>
-          <td class="f-csc">1</td>
+          <td class="angle" dir="ltr">90°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">π</span><span class="den">2</span></span></td>
+          <td class="f-sin" dir="ltr">1</td>
+          <td class="f-cos" dir="ltr">0</td>
+          <td class="f-tan" dir="ltr"><span class="inf">∞</span></td>
+          <td class="f-cot" dir="ltr">0</td>
+          <td class="f-sec" dir="ltr"><span class="inf">∞</span></td>
+          <td class="f-csc" dir="ltr">1</td>
         </tr>
 
-        <!-- 120° -->
+        <!-- ================= 120° ================= -->
         <tr>
-          <td class="angle">120°</td>
-          <td class="angle"><span class="fr"><i>2π</i><b>3</b></span></td>
-          <td class="f-sin"><span class="fr"><i>√3</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>−1</i><b>2</b></span></td>
-          <td class="f-tan">−√3</td>
-          <td class="f-cot"><span class="fr"><i>−√3</i><b>3</b></span></td>
-          <td class="f-sec">−2</td>
-          <td class="f-csc"><span class="fr"><i>2√3</i><b>3</b></span></td>
+          <td class="angle" dir="ltr">120°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">2π</span><span class="den">3</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr">−<span class="fr"><span class="num">1</span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr">−<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></td>
+          <td class="f-cot" dir="ltr">−<span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-sec" dir="ltr">−2</td>
+          <td class="f-csc" dir="ltr"><span class="fr"><span class="num">2<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
         </tr>
 
-        <!-- 135° -->
+        <!-- ================= 135° ================= -->
         <tr>
-          <td class="angle">135°</td>
-          <td class="angle"><span class="fr"><i>3π</i><b>4</b></span></td>
-          <td class="f-sin"><span class="fr"><i>√2</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>−√2</i><b>2</b></span></td>
-          <td class="f-tan">−1</td>
-          <td class="f-cot">−1</td>
-          <td class="f-sec">−√2</td>
-          <td class="f-csc">√2</td>
+          <td class="angle" dir="ltr">135°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">3π</span><span class="den">4</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr">−<span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr">−1</td>
+          <td class="f-cot" dir="ltr">−1</td>
+          <td class="f-sec" dir="ltr">−<span class="rad"><span class="rs">√</span><span class="rb">2</span></span></td>
+          <td class="f-csc" dir="ltr"><span class="rad"><span class="rs">√</span><span class="rb">2</span></span></td>
         </tr>
 
-        <!-- 150° -->
+        <!-- ================= 150° ================= -->
         <tr>
-          <td class="angle">150°</td>
-          <td class="angle"><span class="fr"><i>5π</i><b>6</b></span></td>
-          <td class="f-sin"><span class="fr"><i>1</i><b>2</b></span></td>
-          <td class="f-cos"><span class="fr"><i>−√3</i><b>2</b></span></td>
-          <td class="f-tan"><span class="fr"><i>−√3</i><b>3</b></span></td>
-          <td class="f-cot">−√3</td>
-          <td class="f-sec"><span class="fr"><i>−2√3</i><b>3</b></span></td>
-          <td class="f-csc">2</td>
+          <td class="angle" dir="ltr">150°</td>
+          <td class="angle" dir="ltr"><span class="fr"><span class="num">5π</span><span class="den">6</span></span></td>
+          <td class="f-sin" dir="ltr"><span class="fr"><span class="num">1</span><span class="den">2</span></span></td>
+          <td class="f-cos" dir="ltr">−<span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">2</span></span></td>
+          <td class="f-tan" dir="ltr">−<span class="fr"><span class="num"><span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-cot" dir="ltr">−<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></td>
+          <td class="f-sec" dir="ltr">−<span class="fr"><span class="num">2<span class="rad"><span class="rs">√</span><span class="rb">3</span></span></span><span class="den">3</span></span></td>
+          <td class="f-csc" dir="ltr">2</td>
         </tr>
 
-        <!-- 180° -->
+        <!-- ================= 180° ================= -->
         <tr>
-          <td class="angle">180°</td>
-          <td class="angle">π</td>
-          <td class="f-sin">0</td>
-          <td class="f-cos">−1</td>
-          <td class="f-tan">0</td>
-          <td class="f-cot"><span class="inf">∞</span></td>
-          <td class="f-sec">−1</td>
-          <td class="f-csc"><span class="inf">∞</span></td>
+          <td class="angle" dir="ltr">180°</td>
+          <td class="angle" dir="ltr">π</td>
+          <td class="f-sin" dir="ltr">0</td>
+          <td class="f-cos" dir="ltr">−1</td>
+          <td class="f-tan" dir="ltr">0</td>
+          <td class="f-cot" dir="ltr"><span class="inf">∞</span></td>
+          <td class="f-sec" dir="ltr">−1</td>
+          <td class="f-csc" dir="ltr"><span class="inf">∞</span></td>
         </tr>
       </tbody>
     </table>
@@ -467,15 +490,15 @@
 
 <div class="notes">
   <div class="note">
-    <b>یادآوری:</b> هر زاویه را می‌توان از درجه به رادیان تبدیل کرد:
+    <b>یادآوری:</b> تبدیل درجه به رادیان:
     <span dir="ltr">θ(rad) = θ(deg) × π / 180</span>
   </div>
   <div class="note">
     <span class="warn">∞</span> یعنی نسبت در آن زاویه <b>تعریف نشده</b> است.
-    مثلاً در ۹۰ درجه <span dir="ltr">cos = 0</span> است، پس <span dir="ltr">tan</span> و <span dir="ltr">sec</span> تعریف نمی‌شوند.
+    مثلاً در ۹۰ درجه <span dir="ltr">cos = 0</span> است، پس <span dir="ltr">tan</span> و <span dir="ltr">sec</span> وجود ندارند.
   </div>
   <div class="note">
-    <b>راهنما:</b> با بردن نشانگر روی هر خانه، همان مقدار کریستالی برجسته می‌شود. رنگ هر ستون مخصوص همان نسبت مثلثاتی است.
+    <b>راهنما:</b> اعداد از چپ به راست نوشته شده‌اند؛ رادیکال دقیقاً روی عدد زیرین کشیده شده و علامت منفی همیشه سمت چپ عدد یا کسر قرار دارد.
   </div>
 </div>
 
