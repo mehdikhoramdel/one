@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نسبت‌های مثلثاتی زوایای خاص</title>
+<style>
+  /* ============ تنظیمات پایه ============ */
+  :root{
+    --sin: #38bdf8;
+    --cos: #a78bfa;
+    --tan: #fb7185;
+    --cot: #fbbf24;
+    --sec: #34d399;
+    --csc: #f472b6;
+    --ink: #e8f1ff;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{ min-height: 100%; }
+
+  body{
+    margin: 0;
+    padding: 40px 16px 70px;
+    font-family: 'B Titre', 'BTitre', 'B-Titre', 'B Yekan', Tahoma, sans-serif;
+    background: #05070f;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ پس‌زمینه کریستالی متحرک ============ */
+  body::before{
+    content: "";
+    position: fixed;
+    inset: -25%;
+    z-index: -3;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(56,189,248,.30), transparent 42%),
+      radial-gradient(circle at 82% 12%, rgba(167,139,250,.32), transparent 44%),
+      radial-gradient(circle at 72% 88%, rgba(251,113,133,.24), transparent 45%),
+      radial-gradient(circle at 12% 82%, rgba(52,211,153,.22), transparent 45%);
+    filter: blur(28px);
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+
+  body::after{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+    pointer-events: none;
+  }
+
+  @keyframes drift{
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(2.5%, -3%, 0) scale(1.07); }
+    100% { transform: translate3d(-2.5%, 3%, 0) scale(1.03); }
+  }
+
+  /* ============ تیترها ============ */
+  header{
+    text-align: center;
+    margin-bottom: 26px;
+    animation: fadeDown .8s ease both;
+  }
+
+  h1{
+    margin: 0 0 10px;
+    font-size: clamp(1.35rem, 3.6vw, 2.3rem);
+    letter-spacing: .5px;
+    background: linear-gradient(100deg, #7dd3fc, #a78bfa, #f472b6, #fbbf24, #7dd3fc);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: hueSlide 9s linear infinite;
+  }
+
+  @keyframes hueSlide{
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 260% 50%; }
+  }
+
+  .subtitle{
+    margin: 0;
+    font-size: clamp(.8rem, 1.9vw, 1rem);
+    color: rgba(200,222,255,.72);
+    letter-spacing: .3px;
+  }
+
+  @keyframes fadeDown{
+    from{ opacity: 0; transform: translateY(-16px); }
+    to  { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ شیشه‌ی جدول ============ */
+  .glass{
+    position: relative;
+    width: min(1120px, 100%);
+    padding: 14px;
+    border-radius: 28px;
+    background: linear-gradient(158deg, rgba(255,255,255,.12), rgba(255,255,255,.022));
+    border: 1px solid rgba(255,255,255,.20);
+    box-shadow:
+      0 30px 70px -26px rgba(0,0,0,.95),
+      0 0 0 1px rgba(255,255,255,.04) inset,
+      0 1px 0 rgba(255,255,255,.42) inset;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    overflow: hidden;
+    animation: fadeUp .9s .1s ease both;
+  }
+
+  /* درخشش کریستالی روی شیشه */
+  .glass::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background: linear-gradient(115deg,
+      transparent 32%,
+      rgba(255,255,255,.16) 46%,
+      rgba(255,255,255,.03) 52%,
+      transparent 64%);
+    background-size: 240% 100%;
+    animation: shine 8s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shine{
+    0%   { background-position: 220% 0; }
+    100% { background-position: -120% 0; }
+  }
+
+  @keyframes fadeUp{
+    from{ opacity: 0; transform: translateY(24px); }
+    to  { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroller{
+    overflow-x: auto;
+    border-radius: 18px;
+    padding: 2px;
+  }
+
+  .scroller::-webkit-scrollbar{ height: 9px; }
+  .scroller::-webkit-scrollbar-track{ background: rgba(255,255,255,.05); border-radius: 9px; }
+  .scroller::-webkit-scrollbar-thumb{
+    background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6);
+    border-radius: 9px;
+  }
+
+  /* ============ جدول ============ */
+  table{
+    border-collapse: separate;
+    border-spacing: 7px;
+    width: 100%;
+    min-width: 720px;
+  }
+
+  th, td{
+    padding: 11px 10px;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,.11);
+    background: linear-gradient(158deg, rgba(255,255,255,.085), rgba(255,255,255,.018));
+    box-shadow: 0 1px 0 rgba(255,255,255,.16) inset, 0 8px 18px -14px rgba(0,0,0,.9);
+    transition: transform .25s cubic-bezier(.2,.8,.3,1),
+                background .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
+  }
+
+  thead th{
+    font-size: clamp(.82rem, 1.6vw, 1rem);
+    font-weight: 700;
+    letter-spacing: .8px;
+    color: var(--c, #dbeafe);
+    background: linear-gradient(158deg, rgba(255,255,255,.20), rgba(255,255,255,.045));
+    border-color: rgba(255,255,255,.26);
+    text-shadow: 0 0 14px var(--c, rgba(219,234,254,.6));
+  }
+
+  /* ستون‌های زاویه */
+  thead th.angle-h{
+    color: #e6f6ff;
+    background: linear-gradient(158deg, rgba(125,211,252,.30), rgba(167,139,250,.14));
+    border-color: rgba(125,211,252,.46);
+    text-shadow: 0 0 16px rgba(125,211,252,.85);
+  }
+
+  td.angle{
+    font-weight: 700;
+    font-size: clamp(.82rem, 1.7vw, 1rem);
+    color: #eaf7ff;
+    background: linear-gradient(158deg, rgba(125,211,252,.20), rgba(167,139,250,.10));
+    border-color: rgba(125,211,252,.36);
+    text-shadow: 0 0 15px rgba(125,211,252,.75);
+  }
+
+  /* رنگ هر ستون نسبت مثلثاتی */
+  .f-sin{ --c: var(--sin); }
+  .f-cos{ --c: var(--cos); }
+  .f-tan{ --c: var(--tan); }
+  .f-cot{ --c: var(--cot); }
+  .f-sec{ --c: var(--sec); }
+  .f-csc{ --c: var(--csc); }
+
+  tbody td[class*="f-"]{
+    color: var(--c);
+    font-size: clamp(.82rem, 1.7vw, 1.02rem);
+    text-shadow: 0 0 13px var(--c);
+    border-color: color-mix(in srgb, var(--c) 32%, rgba(255,255,255,.08));
+  }
+
+  /* افکت هاور */
+  tbody tr:hover td{
+    background: linear-gradient(158deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
+    border-color: rgba(255,255,255,.34);
+  }
+
+  tbody td:hover{
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(158deg, rgba(255,255,255,.30), rgba(255,255,255,.08));
+    box-shadow: 0 0 22px -4px var(--c, rgba(255,255,255,.5)),
+                0 1px 0 rgba(255,255,255,.5) inset;
+  }
+
+  /* بینهایت */
+  .inf{
+    font-size: 1.22em;
+    line-height: 1;
+    display: inline-block;
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse{
+    0%, 100%{ opacity: .62; transform: scale(1); }
+    50%     { opacity: 1;    transform: scale(1.14); }
+  }
+
+  /* کسرها */
+  .fr{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1.02;
+    font-size: .92em;
+  }
+  .fr > i{
+    font-style: normal;
+    border-bottom: 1.6px solid currentColor;
+    padding: 0 .32em .07em;
+  }
+  .fr > b{
+    font-weight: inherit;
+    padding: .07em .32em 0;
+  }
+
+  /* انیمیشن ورود سطرها */
+  tbody tr{ animation: rowIn .65s cubic-bezier(.2,.8,.3,1) both; }
+  tbody tr:nth-child(1){ animation-delay: .10s; }
+  tbody tr:nth-child(2){ animation-delay: .17s; }
+  tbody tr:nth-child(3){ animation-delay: .24s; }
+  tbody tr:nth-child(4){ animation-delay: .31s; }
+  tbody tr:nth-child(5){ animation-delay: .38s; }
+  tbody tr:nth-child(6){ animation-delay: .45s; }
+  tbody tr:nth-child(7){ animation-delay: .52s; }
+  tbody tr:nth-child(8){ animation-delay: .59s; }
+  tbody tr:nth-child(9){ animation-delay: .66s; }
+
+  @keyframes rowIn{
+    from{ opacity: 0; transform: translateY(16px); }
+    to  { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ پانویس ============ */
+  .notes{
+    width: min(1120px, 100%);
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    animation: fadeUp 1s .3s ease both;
+  }
+
+  .note{
+    flex: 1 1 260px;
+    padding: 13px 17px;
+    border-radius: 17px;
+    font-size: clamp(.76rem, 1.6vw, .9rem);
+    line-height: 1.85;
+    color: rgba(214,232,255,.86);
+    background: linear-gradient(158deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,.16) inset;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .note b{ color: #7dd3fc; font-weight: 700; }
+  .note .warn{ color: #fbbf24; font-weight: 700; }
+
+  /* ============ واکنش‌گرایی ============ */
+  @media (max-width: 620px){
+    body{ padding: 26px 10px 50px; }
+    .glass{ padding: 10px; border-radius: 22px; }
+    th, td{ padding: 9px 7px; border-radius: 12px; }
+    table{ border-spacing: 5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>جدول نسبت‌های مثلثاتی زوایای خاص</h1>
+  <p class="subtitle">زاویه‌ها بر حسب درجه و رادیان — از ۰ تا ۱۸۰ درجه</p>
+</header>
+
+<div class="glass">
+  <div class="scroller">
+    <table>
+      <thead>
+        <tr>
+          <th class="angle-h">درجه</th>
+          <th class="angle-h">رادیان</th>
+          <th class="f-sin">sin</th>
+          <th class="f-cos">cos</th>
+          <th class="f-tan">tan</th>
+          <th class="f-cot">cot</th>
+          <th class="f-sec">sec</th>
+          <th class="f-csc">csc</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- 0° -->
+        <tr>
+          <td class="angle">0°</td>
+          <td class="angle">0</td>
+          <td class="f-sin">0</td>
+          <td class="f-cos">1</td>
+          <td class="f-tan">0</td>
+          <td class="f-cot"><span class="inf">∞</span></td>
+          <td class="f-sec">1</td>
+          <td class="f-csc"><span class="inf">∞</span></td>
+        </tr>
+
+        <!-- 30° -->
+        <tr>
+          <td class="angle">30°</td>
+          <td class="angle"><span class="fr"><i>π</i><b>6</b></span></td>
+          <td class="f-sin"><span class="fr"><i>1</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>√3</i><b>2</b></span></td>
+          <td class="f-tan"><span class="fr"><i>√3</i><b>3</b></span></td>
+          <td class="f-cot">√3</td>
+          <td class="f-sec"><span class="fr"><i>2√3</i><b>3</b></span></td>
+          <td class="f-csc">2</td>
+        </tr>
+
+        <!-- 45° -->
+        <tr>
+          <td class="angle">45°</td>
+          <td class="angle"><span class="fr"><i>π</i><b>4</b></span></td>
+          <td class="f-sin"><span class="fr"><i>√2</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>√2</i><b>2</b></span></td>
+          <td class="f-tan">1</td>
+          <td class="f-cot">1</td>
+          <td class="f-sec">√2</td>
+          <td class="f-csc">√2</td>
+        </tr>
+
+        <!-- 60° -->
+        <tr>
+          <td class="angle">60°</td>
+          <td class="angle"><span class="fr"><i>π</i><b>3</b></span></td>
+          <td class="f-sin"><span class="fr"><i>√3</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>1</i><b>2</b></span></td>
+          <td class="f-tan">√3</td>
+          <td class="f-cot"><span class="fr"><i>√3</i><b>3</b></span></td>
+          <td class="f-sec">2</td>
+          <td class="f-csc"><span class="fr"><i>2√3</i><b>3</b></span></td>
+        </tr>
+
+        <!-- 90° -->
+        <tr>
+          <td class="angle">90°</td>
+          <td class="angle"><span class="fr"><i>π</i><b>2</b></span></td>
+          <td class="f-sin">1</td>
+          <td class="f-cos">0</td>
+          <td class="f-tan"><span class="inf">∞</span></td>
+          <td class="f-cot">0</td>
+          <td class="f-sec"><span class="inf">∞</span></td>
+          <td class="f-csc">1</td>
+        </tr>
+
+        <!-- 120° -->
+        <tr>
+          <td class="angle">120°</td>
+          <td class="angle"><span class="fr"><i>2π</i><b>3</b></span></td>
+          <td class="f-sin"><span class="fr"><i>√3</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>−1</i><b>2</b></span></td>
+          <td class="f-tan">−√3</td>
+          <td class="f-cot"><span class="fr"><i>−√3</i><b>3</b></span></td>
+          <td class="f-sec">−2</td>
+          <td class="f-csc"><span class="fr"><i>2√3</i><b>3</b></span></td>
+        </tr>
+
+        <!-- 135° -->
+        <tr>
+          <td class="angle">135°</td>
+          <td class="angle"><span class="fr"><i>3π</i><b>4</b></span></td>
+          <td class="f-sin"><span class="fr"><i>√2</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>−√2</i><b>2</b></span></td>
+          <td class="f-tan">−1</td>
+          <td class="f-cot">−1</td>
+          <td class="f-sec">−√2</td>
+          <td class="f-csc">√2</td>
+        </tr>
+
+        <!-- 150° -->
+        <tr>
+          <td class="angle">150°</td>
+          <td class="angle"><span class="fr"><i>5π</i><b>6</b></span></td>
+          <td class="f-sin"><span class="fr"><i>1</i><b>2</b></span></td>
+          <td class="f-cos"><span class="fr"><i>−√3</i><b>2</b></span></td>
+          <td class="f-tan"><span class="fr"><i>−√3</i><b>3</b></span></td>
+          <td class="f-cot">−√3</td>
+          <td class="f-sec"><span class="fr"><i>−2√3</i><b>3</b></span></td>
+          <td class="f-csc">2</td>
+        </tr>
+
+        <!-- 180° -->
+        <tr>
+          <td class="angle">180°</td>
+          <td class="angle">π</td>
+          <td class="f-sin">0</td>
+          <td class="f-cos">−1</td>
+          <td class="f-tan">0</td>
+          <td class="f-cot"><span class="inf">∞</span></td>
+          <td class="f-sec">−1</td>
+          <td class="f-csc"><span class="inf">∞</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="notes">
+  <div class="note">
+    <b>یادآوری:</b> هر زاویه را می‌توان از درجه به رادیان تبدیل کرد:
+    <span dir="ltr">θ(rad) = θ(deg) × π / 180</span>
+  </div>
+  <div class="note">
+    <span class="warn">∞</span> یعنی نسبت در آن زاویه <b>تعریف نشده</b> است.
+    مثلاً در ۹۰ درجه <span dir="ltr">cos = 0</span> است، پس <span dir="ltr">tan</span> و <span dir="ltr">sec</span> تعریف نمی‌شوند.
+  </div>
+  <div class="note">
+    <b>راهنما:</b> با بردن نشانگر روی هر خانه، همان مقدار کریستالی برجسته می‌شود. رنگ هر ستون مخصوص همان نسبت مثلثاتی است.
+  </div>
+</div>
+
+</body>
+</html>
